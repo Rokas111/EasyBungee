@@ -1,0 +1,4 @@
+name: EasyBungee
+author: Rokaz
+version: 1.0
+main: main.bungee.BungeeMain
