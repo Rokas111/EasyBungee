@@ -4,6 +4,7 @@ import api.player.BOfflinePlayer;
 import api.player.BungeePlayer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import main.EasyBungee;
 import main.spigot.api.gui.item.IItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -31,12 +32,14 @@ public class PlayerItem implements IItem {
         List<String> lore = new ArrayList<>();
         if (player.isOnline()) {
             lore.add(ChatColor.GRAY + "Current Server: " + ChatColor.GREEN + ((BungeePlayer)player).getCurrentServer().getName());
-        } else {
+        } else if (EasyBungee.mySQLConnection != null) {
             lore.add(ChatColor.GRAY + "Last Server: " + ChatColor.GREEN + player.getLastServerOnline().getName());
             lore.add(ChatColor.GRAY + "Last Online: " + ChatColor.GREEN + new SimpleDateFormat("yyyy-MM-dd").format(player.getLastOnline()));
         }
-        lore.add(ChatColor.GRAY + "PlayTime: " + ChatColor.GREEN+(player.getPlayTime() < 3600?(player.getPlayTime() > 60?player.getPlayTime()/60+" min":"1 min"):player.getPlayTime() /3600 + " hours " + (player.getPlayTime() % 3600) / 60 + " min"));
-        lore.add(ChatColor.GRAY + "JoinDate: " + ChatColor.GREEN +new SimpleDateFormat("yyyy-MM-dd").format(player.getJoinDate()));
+        if (EasyBungee.mySQLConnection != null) {
+            lore.add(ChatColor.GRAY + "PlayTime: " + ChatColor.GREEN + (player.getPlayTime() < 3600 ? (player.getPlayTime() > 60 ? player.getPlayTime() / 60 + " min" : "1 min") : player.getPlayTime() / 3600 + " hours " + (player.getPlayTime() % 3600) / 60 + " min"));
+            lore.add(ChatColor.GRAY + "JoinDate: " + ChatColor.GREEN + new SimpleDateFormat("yyyy-MM-dd").format(player.getJoinDate()));
+        }
         meta.setLore(lore);
         item.setItemMeta(meta);
         return item;

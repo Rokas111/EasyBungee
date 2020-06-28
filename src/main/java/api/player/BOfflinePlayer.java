@@ -50,7 +50,7 @@ public class BOfflinePlayer {
      * @author Rokaz
      */
     public SpigotServer getLastServerOnline() {
-        if (EasyBungee.redisConnection == null) return null;
+        if (EasyBungee.redisConnection == null || EasyBungee.mySQLConnection == null) return null;
         try (Jedis jedis = EasyBungee.redisConnection.getPool().getResource()) {
             if (!EasyBungee.redisConnection.getLogin().getAuth().isEmpty()) {jedis.auth(EasyBungee.redisConnection.getLogin().getAuth());}
             return new SpigotServer(jedis.hget("profile." + id.toString(),"lastServer"));
@@ -62,7 +62,7 @@ public class BOfflinePlayer {
      * @author Rokaz
      */
     public Date getLastOnline() {
-        if (EasyBungee.redisConnection == null) return null;
+        if (EasyBungee.redisConnection == null || EasyBungee.mySQLConnection == null) return null;
         try (Jedis jedis = EasyBungee.redisConnection.getPool().getResource()) {
             if (!EasyBungee.redisConnection.getLogin().getAuth().isEmpty()) {jedis.auth(EasyBungee.redisConnection.getLogin().getAuth());}
             return new Date(Long.parseLong(jedis.hget("profile." + id.toString(),"lastOnline")));
@@ -74,7 +74,7 @@ public class BOfflinePlayer {
      * @author Rokaz
      */
     public Date getJoinDate() {
-        if (EasyBungee.redisConnection == null) return null;
+        if (EasyBungee.redisConnection == null || EasyBungee.mySQLConnection == null) return null;
         try (Jedis jedis = EasyBungee.redisConnection.getPool().getResource()) {
             if (!EasyBungee.redisConnection.getLogin().getAuth().isEmpty()) {jedis.auth(EasyBungee.redisConnection.getLogin().getAuth());}
             return new Date(Long.parseLong(jedis.hget("profile." + id.toString(),"joinDate")));
@@ -86,7 +86,7 @@ public class BOfflinePlayer {
      * @author Rokaz
      */
     public int getPlayTime() {
-        if (EasyBungee.redisConnection == null) return 0;
+        if (EasyBungee.redisConnection == null || EasyBungee.mySQLConnection == null) return 0;
         try (Jedis jedis = EasyBungee.redisConnection.getPool().getResource()) {
             if (!EasyBungee.redisConnection.getLogin().getAuth().isEmpty()) {jedis.auth(EasyBungee.redisConnection.getLogin().getAuth());}
             return Integer.parseInt(jedis.hget("profile." + id.toString(),"time"));
